@@ -31,6 +31,6 @@ public class ProductCategory {
 
     String name;
 
-    @ManyToMany(mappedBy = "category")
+    @ManyToMany(mappedBy = "categories")
     Set<Product> product;
 }

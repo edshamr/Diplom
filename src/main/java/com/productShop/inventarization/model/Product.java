@@ -42,8 +42,8 @@ public class Product {
     String image;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "product_category",
+    @JoinTable(name = "product_product_category",
     joinColumns = @JoinColumn(name = "product_id"),
     inverseJoinColumns = @JoinColumn(name = "product_category_id"))
-    Set<ProductCategory> category;
+    Set<ProductCategory> categories;
 }

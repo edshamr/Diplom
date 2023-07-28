@@ -1,6 +1,5 @@
 package com.productShop.inventarization.service;
 
-import com.productShop.inventarization.common.mapper.ProductMapper;
 import com.productShop.inventarization.model.Product;
 import com.productShop.inventarization.repos.ProductRepository;
 import jakarta.annotation.Nonnull;
@@ -15,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -31,8 +29,6 @@ public class ProductService {
     }
 
     public Product updateProduct(@Nonnull @ModelAttribute("product") final Product product) {
-//        final var updatedProduct = new Product();
-//        productMapper.update(updatedProduct, product);
         productRepository.findById(product.getId()).
                 orElseThrow(() -> new ProviderNotFoundException("Such product was not found"));
         return productRepository.save(product);
