@@ -70,8 +70,38 @@ public class DataLoader implements ApplicationRunner {
                             productCategoryRepository.findFirstByName("Sweet").orElse(new ProductCategory()),
                             productCategoryRepository.findFirstByName("Drinks").orElse(new ProductCategory()))
                     )
+                    .build(),
+                Product.builder()
+                    .name("Good meat")
+                    .vendorCode("MT")
+                    .image(
+                        "https://www.redefinemeat.com/wp-content/uploads/2022/04/BLOG1.jpg")
+                    .categories(
+                        Set.of(
+                            productCategoryRepository.findFirstByName("Meat").orElse(new ProductCategory()))
+                    )
+                    .build(),
+                Product.builder()
+                    .name("Pork")
+                    .vendorCode("PRK")
+                    .image(
+                        "https://assets.farmison.com/images/recipe-detail-345/83389-835-flat-pork-loin.jpg")
+                    .categories(
+                        Set.of(
+                            productCategoryRepository.findFirstByName("Meat").orElse(new ProductCategory()))
+                    )
+                    .build(),
+                Product.builder()
+                    .name("Cake")
+                    .vendorCode("CK")
+                    .image(
+                        "https://www.popsci.com/uploads/2019/03/18/GHDDTIRYTR22T6DYZG6GGWUZCQ-scaled.jpg?auto=webp")
+                    .categories(
+                        Set.of(
+                            productCategoryRepository.findFirstByName("Sweet").orElse(new ProductCategory()),
+                            productCategoryRepository.findFirstByName("Bakery").orElse(new ProductCategory()))
+                    )
                     .build()
-
             );
 
             productRepository.saveAll(productList);
