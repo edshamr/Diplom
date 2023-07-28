@@ -43,5 +43,5 @@ public class ProductHistory {
     int amount;
 
     @Column(name = "price", nullable = false)
-    Currency price;
+    double price;
 }

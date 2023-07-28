@@ -1,5 +1,6 @@
 package com.productShop.inventarization.service;
 
+import com.productShop.inventarization.common.validator.ProductStockValidator;
 import com.productShop.inventarization.exception.ProductStockNotFoundException;
 import com.productShop.inventarization.model.ProductStock;
 import com.productShop.inventarization.repos.ProductStockRepository;
@@ -25,10 +26,18 @@ public class ProductStockService {
     }
 
     public ProductStock createProductStock(@Nonnull @ModelAttribute("product_stock") final ProductStock productStock) {
+        if (ProductStockValidator.isProductStockValid(productStock)) {
+            throw new RuntimeException("Such product stock is not valid");
+        }
+
         return productStockRepository.save(productStock);
     }
 
     public ProductStock updateProductStock(@Nonnull @ModelAttribute("product_stock") final ProductStock productStock) {
+        if (ProductStockValidator.isProductStockValid(productStock)) {
+            throw new RuntimeException("Such product stock is not valid");
+        }
+
         productStockRepository.findById(productStock.getId()).
                 orElseThrow(() -> new ProductStockNotFoundException("Such product stock was not found"));
         return productStockRepository.save(productStock);

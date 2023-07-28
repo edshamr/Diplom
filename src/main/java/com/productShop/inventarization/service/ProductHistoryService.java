@@ -1,5 +1,6 @@
 package com.productShop.inventarization.service;
 
+import com.productShop.inventarization.common.validator.ProductHistoryValidator;
 import com.productShop.inventarization.exception.ProductHistoryNotFoundException;
 import com.productShop.inventarization.model.ProductHistory;
 import com.productShop.inventarization.repos.ProductHistoryRepository;
@@ -25,12 +26,21 @@ public class ProductHistoryService {
     }
 
     public ProductHistory createProductHistory(@Nonnull @ModelAttribute("product_history") final ProductHistory productHistory) {
+        if (ProductHistoryValidator.isProductHistoryValid(productHistory)) {
+            throw new RuntimeException("Such product history is not valid.");
+        }
+
         return productHistoryRepository.save(productHistory);
     }
 
     public ProductHistory updateProductHistory(@Nonnull @ModelAttribute("product_history") final ProductHistory productHistory) {
+        if (ProductHistoryValidator.isProductHistoryValid(productHistory)) {
+            throw new RuntimeException("Such product history is not valid.");
+        }
+
         productHistoryRepository.findById(productHistory.getId()).
                 orElseThrow(() -> new ProductHistoryNotFoundException("Such product history was not found"));
+
         return productHistoryRepository.save(productHistory);
     }
 
