@@ -1,8 +1,6 @@
 package com.productShop.inventarization.service;
 
 import com.productShop.inventarization.exception.ProductCategoryNotFoundException;
-import com.productShop.inventarization.exception.ProductNotFoundException;
-import com.productShop.inventarization.model.Product;
 import com.productShop.inventarization.model.ProductCategory;
 import com.productShop.inventarization.repos.ProductCategoryRepository;
 import jakarta.annotation.Nonnull;
