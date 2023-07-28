@@ -31,4 +31,7 @@ public class Product {
 
     @Column(name = "name", nullable = false)
     String name;
+
+    @Column(name = "image", length = 512)
+    String image;
 }
