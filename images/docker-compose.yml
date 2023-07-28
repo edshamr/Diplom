@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:15.3
+    environment:
+      POSTGRES_DB: "inventoryOfShop"
+      POSTGRES_USER: "superuser"
+      POSTGRES_PASSWORD: "superuser"
+    ports:
+      - "5433:5432"
