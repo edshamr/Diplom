@@ -16,6 +16,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Currency;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,5 +36,8 @@ public class ProductStock {
     Product product;
 
     @Column(name = "amount", nullable = false)
-    int amount;
+    double amount;
+
+    @Column(name = "unit_dimension")
+    String unitDimension;
 }
