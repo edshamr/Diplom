@@ -2,6 +2,7 @@ package com.productShop.inventarization.dataloader;
 
 import com.productShop.inventarization.model.Product;
 import com.productShop.inventarization.model.ProductCategory;
+import com.productShop.inventarization.model.ProductStock;
 import com.productShop.inventarization.repos.ProductCategoryRepository;
 import com.productShop.inventarization.repos.ProductHistoryRepository;
 import com.productShop.inventarization.repos.ProductRepository;
@@ -105,6 +106,20 @@ public class DataLoader implements ApplicationRunner {
             );
 
             productRepository.saveAll(productList);
+
+            List<ProductStock> productStocks = List.of(
+                ProductStock.builder()
+                    .product(productRepository.getReferenceById(1L))
+                    .amount(10)
+                    .unitDimension("Kg")
+                    .build(),
+                ProductStock.builder()
+                    .product(productRepository.getReferenceById(2L))
+                    .amount(5)
+                    .unitDimension("Sht")
+                    .build()
+            );
+            productStockRepository.saveAll(productStocks);
         }
     }
 }

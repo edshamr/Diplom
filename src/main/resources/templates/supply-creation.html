@@ -26,12 +26,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link align-middle px-0">
+                        <a href="/table" class="nav-link align-middle px-0">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Products table</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link align-middle px-0">
+                        <a href="/supply" class="nav-link align-middle px-0">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Create supply request</span>
                         </a>
                     </li>
@@ -46,18 +46,16 @@
                 <tr>
                     <td><strong>Name</strong></td>
                     <td><strong>Vendor Code</strong></td>
-                    <td><strong>Amount</strong></td>
-                    <td><strong>Start</strong></td>
-                    <td><strong>Start2</strong></td>
+                    <td><strong>Current amount</strong></td>
+                    <td><strong>Order amount</strong></td>
                 </tr>
                 </thead>
 
-                <tr th:each="product: ${products}">
-                    <td th:text="${product.name}"></td>
-                    <td th:text="${product.vendorCode}"></td>
-                    <td th:text="${product.amount}"></td>
-                    <td><a th:href="@{/pass-test/{id}(id=${product.getId()})}">Action1</a></td>
-                    <td><a th:href="@{/pass-test/{id}(id=${product.getId()})}">Action2</a></td>
+                <tr th:each="product: ${productsDto}">
+                    <td th:text="${product.productStock.product.name}"></td>
+                    <td th:text="${product.productStock.product.vendorCode}"></td>
+                    <td th:text="${product.productStock.amount + ' ' + product.productStock.unitDimension}"></td>
+                    <td th:text="${product.orderAmount}" contenteditable="true"></td>
                 </tr>
             </table>
         </div>

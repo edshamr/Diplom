@@ -26,12 +26,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link align-middle px-0">
+                        <a href="/table" class="nav-link align-middle px-0">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Products table</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link align-middle px-0">
+                        <a href="/supply" class="nav-link align-middle px-0">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Create supply request</span>
                         </a>
                     </li>
@@ -53,9 +53,9 @@
                 </thead>
 
                 <tr th:each="product: ${products}">
-                    <td th:text="${product.name}"></td>
-                    <td th:text="${product.vendorCode}"></td>
-                    <td th:text="${product.amount}"></td>
+                    <td th:text="${product.product.name}"></td>
+                    <td th:text="${product.product.vendorCode}"></td>
+                    <td th:text="${product.amount + ' ' + product.unitDimension}"></td>
                     <td><a th:href="@{/pass-test/{id}(id=${product.getId()})}">Action1</a></td>
                     <td><a th:href="@{/pass-test/{id}(id=${product.getId()})}">Action2</a></td>
                 </tr>
