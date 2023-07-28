@@ -25,6 +25,10 @@ public class ProductHistoryService {
                 orElseThrow(() -> new ProductHistoryNotFoundException("Such product history was not found"));
     }
 
+    public List<ProductHistory> getProductHistoryByProductId(@Nonnull final Long id) {
+        return productHistoryRepository.findProductHistoriesByProductId(id);
+    }
+
     public ProductHistory createProductHistory(@Nonnull @ModelAttribute("product_history") final ProductHistory productHistory) {
         if (ProductHistoryValidator.isProductHistoryValid(productHistory)) {
             throw new RuntimeException("Such product history is not valid.");

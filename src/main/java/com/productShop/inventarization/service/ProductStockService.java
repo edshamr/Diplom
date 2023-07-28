@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductStockService {
-    ProductStockRepository productStockRepository;
+    private final ProductStockRepository productStockRepository;
 
     public List<ProductStock> getAllProductStock() {
         return productStockRepository.findAll();
