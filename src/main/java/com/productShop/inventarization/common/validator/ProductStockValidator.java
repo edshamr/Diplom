@@ -9,4 +9,8 @@ public class ProductStockValidator {
         final var amount = productStock.getAmount();
         return amount < 0;
     }
+
+    public static boolean isProductStockAmountEnough(ProductStock productStock, double orderAmount) {
+        return productStock.getAmount() >= orderAmount;
+    }
 }

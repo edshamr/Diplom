@@ -1,23 +1,27 @@
 package com.productShop.inventarization.service;
 
+import com.productShop.inventarization.DTO.SupplyDTO;
+import com.productShop.inventarization.common.validator.ProductStockValidator;
 import com.productShop.inventarization.exception.SupplyOrderNotFoundException;
 import com.productShop.inventarization.model.SupplyOrder;
 import com.productShop.inventarization.repos.SupplyOrderRepository;
 import jakarta.annotation.Nonnull;
+
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.internal.util.collections.CollectionHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Service
 @RequiredArgsConstructor
 public class SupplyOrderService {
     private final SupplyOrderRepository supplyOrderRepository;
-
     public List<SupplyOrder> getAllSupplyOrders() {
         return supplyOrderRepository.findAll();
     }
-
     public SupplyOrder getSupplyOrderById(@Nonnull final Long id) {
         return supplyOrderRepository.findById(id).
             orElseThrow(() -> new SupplyOrderNotFoundException("Such order was not found"));

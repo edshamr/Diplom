@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
+@Builder(toBuilder = true)
 @Entity
 @Table(name = "product_stock")
 public class ProductStock {

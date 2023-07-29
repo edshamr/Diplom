@@ -40,6 +40,6 @@ public class ProductHistory {
     @Column(name = "amount", nullable = false)
     int amount;
 
-    @Column(name = "price", nullable = false)
-    double price;
+    @Column(name = "sold_price", nullable = false)
+    double soldPrice;
 }

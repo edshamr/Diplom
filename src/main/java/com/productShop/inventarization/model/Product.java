@@ -10,7 +10,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+
 import java.util.Set;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,8 +43,13 @@ public class Product {
     String image;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "product_product_category",
-        joinColumns = @JoinColumn(name = "product_id"),
-        inverseJoinColumns = @JoinColumn(name = "product_category_id"))
+    @JoinTable(
+            name = "product_category_mapping",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     Set<ProductCategory> categories;
+
+    @Column(name = "price", nullable = false)
+    double price;
 }

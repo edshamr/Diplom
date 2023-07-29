@@ -28,8 +28,6 @@ public class ProductCategory {
     @Column(name = "id", nullable = false)
     Long id;
 
+    @Column(name = "name", nullable = false)
     String name;
-
-    @ManyToMany(mappedBy = "categories")
-    Set<Product> product;
 }
