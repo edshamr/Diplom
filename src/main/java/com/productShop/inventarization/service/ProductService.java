@@ -6,6 +6,7 @@ import com.productShop.inventarization.repos.ProductRepository;
 import jakarta.annotation.Nonnull;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -19,8 +20,10 @@ public class ProductService {
     }
 
     public Product getProductById(@Nonnull final Long id) {
-        return productRepository.findById(id).
+        var product = productRepository.findById(id).
             orElseThrow(() -> new ProductNotFoundException("Such product was not found"));
+        Hibernate.initialize(product.getCategories());
+        return product;
     }
 
     public Product createProduct(@Nonnull @ModelAttribute("product") final Product product) {
