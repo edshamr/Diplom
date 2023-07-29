@@ -71,7 +71,7 @@
                     <div class="modal fade" th:id="${'addSell' + product.id}"
                          tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
-                            <div class="modal-content" style="background-color: #2a2b38;">
+                            <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title"
                                         th:attr="id=${'addSellLabel' + product.id}"
@@ -84,9 +84,14 @@
                                 <div class="modal-body">
                                     <form th:action="@{/add-sell}"
                                           method="post">
+                                        <label for="sellAmount" class="form-label">Amount to sell:</label>
+                                        <input type="text" class="form-control" id="sellAmount"
+                                               name="sellAmount">
                                         <button class="btn btn-outline-primary" style="margin: 5px;" type="submit">
                                             Save
                                         </button>
+
+                                        <input type="hidden" id="productStockId" th:value="${product.id}" name="productStockId">
                                     </form>
                                 </div>
                                 <div class="modal-footer">

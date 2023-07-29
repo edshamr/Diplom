@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @AllArgsConstructor
@@ -59,6 +60,17 @@ public class MainController {
         final var allCategories = productCategoryRepository.findAll();
         model.addAttribute("allCategories", allCategories);
         return "product-page";
+    }
+
+    @PostMapping("/add-sell")
+    public String createSupply(@RequestParam(name = "sellAmount") double sellAmount,
+                               @RequestParam(name = "productStockId") long productStockId, Model model) {
+        System.out.println(sellAmount);
+        System.out.println(productStockId);
+        // get productStock by id from service
+        // validate size of sell
+        // -amount, and add to history of sells
+        return "redirect:/table";
     }
 
     @GetMapping("/login")
