@@ -38,7 +38,7 @@ public class ProductHistory {
     LocalDate date;
 
     @Column(name = "amount", nullable = false)
-    int amount;
+    double amount;
 
     @Column(name = "sold_price", nullable = false)
     double soldPrice;

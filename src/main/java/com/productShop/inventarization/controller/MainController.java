@@ -5,7 +5,7 @@ import com.productShop.inventarization.DTO.SupplyDTO;
 import com.productShop.inventarization.model.Product;
 import com.productShop.inventarization.repos.ProductCategoryRepository;
 import com.productShop.inventarization.service.ProductService;
-import com.productShop.inventarization.service.ProductSockUtilService;
+import com.productShop.inventarization.service.ProductStockUtilService;
 import com.productShop.inventarization.service.ProductStockService;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,7 +23,7 @@ public class MainController {
     private final ProductCategoryRepository productCategoryRepository;
     ProductService productService;
     ProductStockService productStockService;
-    ProductSockUtilService productSockUtilService;
+    ProductStockUtilService productStockUtilService;
 
     @GetMapping("/")
     public String mainPage(Model model) {
@@ -51,7 +51,7 @@ public class MainController {
     @PostMapping("/create-supply")
     public String createSupply(SupplyDTO supplyDTO, Model model) {
         supplyDTO.getProducts().forEach(System.out::println);
-        final var productStocks = productSockUtilService.createSupply(supplyDTO);
+        final var productStocks = productStockUtilService.createSupply(supplyDTO);
         // Save to db
         model.addAttribute("supplyDTO", supplyDTO);
         // make page, and redirect to that page (supply-result)
@@ -87,7 +87,7 @@ public class MainController {
                                @RequestParam(name = "productStockId") long productStockId, Model model) {
         System.out.println(sellAmount);
         System.out.println(productStockId);
-        final var productStock = productSockUtilService.sellProduct(productStockId, sellAmount);
+        final var productStock = productStockUtilService.sellProduct(productStockId, sellAmount);
         // get productStock by id from service
         // validate size of sell
         // -amount, and add to history of sells
