@@ -39,6 +39,7 @@ public class ProductStockUtilService {
                 .soldPrice(productStock.getProduct().getPrice())
             .build()
         );
+
         return productStockService.updateProductStock(updatedStock);
     }
 }

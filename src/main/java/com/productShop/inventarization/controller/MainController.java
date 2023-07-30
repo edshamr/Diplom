@@ -4,6 +4,7 @@ import com.productShop.inventarization.DTO.ProductOrderDTO;
 import com.productShop.inventarization.DTO.SupplyDTO;
 import com.productShop.inventarization.model.Product;
 import com.productShop.inventarization.repos.ProductCategoryRepository;
+import com.productShop.inventarization.service.GraphService;
 import com.productShop.inventarization.service.ProductService;
 import com.productShop.inventarization.service.ProductStockUtilService;
 import com.productShop.inventarization.service.ProductStockService;
@@ -24,6 +25,7 @@ public class MainController {
     ProductService productService;
     ProductStockService productStockService;
     ProductStockUtilService productStockUtilService;
+    GraphService graphService;
 
     @GetMapping("/")
     public String mainPage(Model model) {
@@ -66,11 +68,7 @@ public class MainController {
         final var allCategories = productCategoryRepository.findAll();
         model.addAttribute("allCategories", allCategories);
 
-        Map<String, Integer> graphData = new TreeMap<>();
-        graphData.put("2016", 147);
-        graphData.put("2017", 1256);
-        graphData.put("2018", 3856);
-        graphData.put("2019", 19807);
+        final var graphData = graphService.generateItemSellHistoryGraph(product.getId());
         model.addAttribute("chartData", graphData);
 
         return "product-page";
