@@ -94,6 +94,20 @@ public class MainController {
         return "redirect:/table";
     }
 
+    @GetMapping("/add-product")
+    public String addProductPage(Model model) {
+        model.addAttribute("product", new Product());
+        final var allCategories = productCategoryRepository.findAll();
+        model.addAttribute("allCategories", allCategories);
+        return "add-product";
+    }
+
+    @PostMapping("/add-product")
+    public String addProduct(Product product,Model model) {
+        productService.createProduct(product);
+        return "redirect:/";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";

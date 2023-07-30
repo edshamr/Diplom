@@ -31,6 +31,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="/add-product" class="nav-link align-middle px-0 text-white text-decoration-none">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Add product</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/table" class="nav-link align-middle px-0 text-white text-decoration-none">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Products table</span>
                         </a>
@@ -54,6 +59,7 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${product.name}">Product name</h5>
                     <p class="card-text" th:text="${product.vendorCode}">Vendor code.</p>
+                    <p class="card-text" th:text="${'Price: ' + product.price}">Price</p>
                     <ul class="list-group">
                         <th:block th:each="category, itemStat : ${product.categories}">
                             <li class="list-group-item" th:text="${category.name}">Category</li>
@@ -63,7 +69,7 @@
                        data-bs-target="#editModal">Edit product</a>
                 </div>
                 <div class="card-footer text-muted">
-                    Here will be chart
+                    Sells for months chart
                     <div id="chart_div"></div>
                 </div>
             </div>
@@ -90,6 +96,11 @@
                     <input type="text" class="form-control" id="vendorCode"
                            th:value="${product.vendorCode}"
                            name="vendorCode">
+
+                    <label for="price" class="form-label">Price:</label>
+                    <input type="number" class="form-control" id="price"
+                           th:value="${product.price}"
+                           name="price">
 
                     <label for="image" class="form-label">Image:</label>
                     <input type="text" class="form-control" id="image"
@@ -130,18 +141,18 @@
     });
     function drawColumnChart() {
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Year');
-        data.addColumn('number', 'Views');
+        data.addColumn('string', 'Date');
+        data.addColumn('number', 'Sold');
         Object.keys(real_data).forEach(function(key) {
             data.addRow([ key, real_data[key] ]);
         });
         var options = {
-            title : 'Blog stats',
+            title : 'Sells',
             hAxis : {
-                title : 'Years',
+                title : 'Date',
             },
             vAxis : {
-                title : 'View Count'
+                title : 'Sold'
             }
         };
         var chart = new google.visualization.ColumnChart(document
