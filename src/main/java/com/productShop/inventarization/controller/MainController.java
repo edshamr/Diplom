@@ -7,6 +7,8 @@ import com.productShop.inventarization.service.ProductService;
 import com.productShop.inventarization.service.ProductSockUtilService;
 import com.productShop.inventarization.service.ProductStockService;
 import com.productShop.inventarization.service.SupplyOrderService;
+import java.util.Map;
+import java.util.TreeMap;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,6 +65,14 @@ public class MainController {
         model.addAttribute("product", product);
         final var allCategories = productCategoryRepository.findAll();
         model.addAttribute("allCategories", allCategories);
+
+        Map<String, Integer> graphData = new TreeMap<>();
+        graphData.put("2016", 147);
+        graphData.put("2017", 1256);
+        graphData.put("2018", 3856);
+        graphData.put("2019", 19807);
+        model.addAttribute("chartData", graphData);
+
         return "product-page";
     }
 
