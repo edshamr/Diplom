@@ -2,11 +2,11 @@ package com.productShop.inventarization.controller;
 
 import com.productShop.inventarization.DTO.ProductOrderDTO;
 import com.productShop.inventarization.DTO.SupplyDTO;
+import com.productShop.inventarization.model.Product;
 import com.productShop.inventarization.repos.ProductCategoryRepository;
 import com.productShop.inventarization.service.ProductService;
 import com.productShop.inventarization.service.ProductSockUtilService;
 import com.productShop.inventarization.service.ProductStockService;
-import com.productShop.inventarization.service.SupplyOrderService;
 import java.util.Map;
 import java.util.TreeMap;
 import lombok.AllArgsConstructor;
@@ -59,7 +59,7 @@ public class MainController {
     }
 
     @GetMapping("/product-page/{id}")
-    public String deleteUser(@PathVariable("id") long id, Model model) {
+    public String productPage(@PathVariable("id") long id, Model model) {
         final var product = productService.getProductById(id);
         System.out.println(product.getCategories());
         model.addAttribute("product", product);
@@ -74,6 +74,12 @@ public class MainController {
         model.addAttribute("chartData", graphData);
 
         return "product-page";
+    }
+
+    @PostMapping("/update-product")
+    public String updateProduct(Product product) {
+        productService.updateProduct(product);
+        return "redirect:/product-page/" + product.getId();
     }
 
     @PostMapping("/add-sell")
