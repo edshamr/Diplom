@@ -4,6 +4,8 @@ import com.productShop.inventarization.model.ProductHistory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.temporal.ChronoUnit;
+
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,13 +18,12 @@ public class GraphService {
 
     public Map<LocalDate, Double> generateItemSellHistoryGraph(long id) {
         final var productHistories = productHistoryService.getProductHistoryByProductId(id);
-//        Map<String, Integer> graphData = new TreeMap<>();
-//        graphData.put("2016", 147);
-//        graphData.put("2017", 1256);
-//        graphData.put("2018", 3856);
-//        graphData.put("2019", 19807);
 
         final var graphData = productHistories.stream()
+                .filter(productHistory -> {
+                    long monthsDifference = ChronoUnit.MONTHS.between(productHistory.getDate(), LocalDate.now());
+                    return monthsDifference <= 1;
+                })
                 .collect(Collectors.toMap(
                         ProductHistory::getDate,
                         ProductHistory::getAmount
