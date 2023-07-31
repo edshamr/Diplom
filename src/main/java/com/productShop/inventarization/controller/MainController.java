@@ -63,7 +63,6 @@ public class MainController {
     @GetMapping("/product-page/{id}")
     public String productPage(@PathVariable("id") long id, Model model) {
         final var product = productService.getProductById(id);
-        System.out.println(product.getCategories());
         model.addAttribute("product", product);
         final var allCategories = productCategoryRepository.findAll();
         model.addAttribute("allCategories", allCategories);
