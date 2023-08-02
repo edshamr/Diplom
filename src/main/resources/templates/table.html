@@ -54,6 +54,7 @@
                 <tr>
                     <td><strong>Name</strong></td>
                     <td><strong>Vendor Code</strong></td>
+                    <td><strong>Add amount</strong></td>
                     <td><strong>Amount</strong></td>
                     <td><strong>Write off</strong></td>
                     <td><strong>Sold today</strong></td>
@@ -65,9 +66,16 @@
                 <tr th:each="product: ${products}">
                     <td th:text="${product.product.name}"></td>
                     <td th:text="${product.product.vendorCode}"></td>
+                    <td>
+                        <button class="btn btn-outline-success" type="button"
+                                data-bs-toggle="modal"
+                                th:data-bs-target="${'#addAmount' + product.id}">
+                            Add Amount
+                        </button>
+                    </td>
                     <td th:text="${product.amount + ' ' + product.unitDimension}"></td>
                     <td>
-                        <button class="btn btn-outline-primary" type="button"
+                        <button class="btn btn-outline-danger" type="button"
                                 data-bs-toggle="modal"
                                 th:data-bs-target="${'#writeOff' + product.id}">
                             Write off
@@ -144,6 +152,42 @@
 
                                         <input type="hidden" id="productStockIdToWriteOff" th:value="${product.id}"
                                                name="productStockIdToWriteOff">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal to add amount -->
+                    <div class="modal fade" th:id="${'addAmount' + product.id}"
+                         tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"
+                                        th:attr="id=${'addAmountLabel' + product.id}"
+                                        th:text="${'addAmount ' + product.product.name}">
+                                        writeOff</h5>
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action="@{/add-amount}"
+                                          method="post">
+                                        <label for="writeOffAmount" class="form-label">Amount to add:</label>
+                                        <input type="text" class="form-control" id="toAddAmount"
+                                               name="toAddAmount">
+                                        <button class="btn btn-outline-primary" style="margin: 5px;" type="submit">
+                                            Save
+                                        </button>
+
+                                        <input type="hidden" id="productStockIdToAddAmount" th:value="${product.id}"
+                                               name="productStockIdToAddAmount">
                                     </form>
                                 </div>
                                 <div class="modal-footer">

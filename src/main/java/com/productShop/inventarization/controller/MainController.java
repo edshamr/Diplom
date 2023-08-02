@@ -92,6 +92,14 @@ public class MainController {
         return "redirect:/table";
     }
 
+    @PostMapping("/add-amount")
+    public String addAmountToProduct(@RequestParam(name = "toAddAmount") double toAddAmount,
+                                        @RequestParam(name = "productStockIdToAddAmount") long productStockIdToAddAmount,
+                                        Model model) {
+        productStockUtilService.addAmountToProduct(productStockIdToAddAmount, toAddAmount);
+        return "redirect:/table";
+    }
+
     @GetMapping("/add-product")
     public String addProductPage(Model model) {
         model.addAttribute("product", new Product());

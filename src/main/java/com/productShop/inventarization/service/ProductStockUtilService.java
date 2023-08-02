@@ -49,4 +49,12 @@ public class ProductStockUtilService {
         final var updatedStock = productStock.toBuilder().amount(productStock.getAmount() - sellAmount).build();
         return productStockService.updateProductStock(updatedStock);
     }
+
+    @Transactional
+    public ProductStock addAmountToProduct(long productStockId, double toAddAmount) {
+        final var productStock = productStockService.getProductStockById(productStockId);
+        final var updatedStock = productStock.toBuilder().amount(productStock.getAmount() + toAddAmount).build();
+        return productStockService.updateProductStock(updatedStock);
+    }
+
 }
