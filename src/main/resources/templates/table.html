@@ -37,7 +37,8 @@
                     </li>
                     <li class="nav-item">
                         <a href="/supply" class="nav-link align-middle px-0 text-white text-decoration-none">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Create supply request</span>
+                            <i class="fs-4 bi-house"></i> <span
+                                class="ms-1 d-none d-sm-inline">Create supply request</span>
                         </a>
                     </li>
                 </ul>
@@ -54,6 +55,7 @@
                     <td><strong>Name</strong></td>
                     <td><strong>Vendor Code</strong></td>
                     <td><strong>Amount</strong></td>
+                    <td><strong>Write off</strong></td>
                     <td><strong>Sold today</strong></td>
                     <td><strong>Add sell today</strong></td>
                 </tr>
@@ -64,7 +66,15 @@
                     <td th:text="${product.product.name}"></td>
                     <td th:text="${product.product.vendorCode}"></td>
                     <td th:text="${product.amount + ' ' + product.unitDimension}"></td>
+                    <td>
+                        <button class="btn btn-outline-primary" type="button"
+                                data-bs-toggle="modal"
+                                th:data-bs-target="${'#writeOff' + product.id}">
+                            Write off
+                        </button>
+                    </td>
                     <td th:text="${'template'}"></td>
+                    <td th:text="${product.amount + ' ' + product.unitDimension}"></td>
                     <td>
                         <button class="btn btn-outline-primary" type="button"
                                 data-bs-toggle="modal"
@@ -80,7 +90,7 @@
                                 <div class="modal-header">
                                     <h5 class="modal-title"
                                         th:attr="id=${'addSellLabel' + product.id}"
-                                    th:text="${'Add sell to ' + product.product.name}">
+                                        th:text="${'Add sell to ' + product.product.name}">
                                         Add sell</h5>
                                     <button type="button" class="btn-close"
                                             data-bs-dismiss="modal"
@@ -96,7 +106,44 @@
                                             Save
                                         </button>
 
-                                        <input type="hidden" id="productStockId" th:value="${product.id}" name="productStockId">
+                                        <input type="hidden" id="productStockId" th:value="${product.id}"
+                                               name="productStockId">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal to write off -->
+                    <div class="modal fade" th:id="${'writeOff' + product.id}"
+                         tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"
+                                        th:attr="id=${'writeOffLabel' + product.id}"
+                                        th:text="${'writeOff ' + product.product.name}">
+                                        writeOff</h5>
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action="@{/write-off}"
+                                          method="post">
+                                        <label for="writeOffAmount" class="form-label">Amount to write off:</label>
+                                        <input type="text" class="form-control" id="writeOffAmount"
+                                               name="writeOffAmount">
+                                        <button class="btn btn-outline-primary" style="margin: 5px;" type="submit">
+                                            Save
+                                        </button>
+
+                                        <input type="hidden" id="productStockIdToWriteOff" th:value="${product.id}"
+                                               name="productStockIdToWriteOff">
                                     </form>
                                 </div>
                                 <div class="modal-footer">

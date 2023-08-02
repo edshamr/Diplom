@@ -6,10 +6,8 @@ import com.productShop.inventarization.model.Product;
 import com.productShop.inventarization.repos.ProductCategoryRepository;
 import com.productShop.inventarization.service.GraphService;
 import com.productShop.inventarization.service.ProductService;
-import com.productShop.inventarization.service.ProductStockUtilService;
 import com.productShop.inventarization.service.ProductStockService;
-import java.util.Map;
-import java.util.TreeMap;
+import com.productShop.inventarization.service.ProductStockUtilService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,7 +55,7 @@ public class MainController {
         // Save to db
         model.addAttribute("supplyDTO", supplyDTO);
         // make page, and redirect to that page (supply-result)
-        return "supply-creation";
+        return "supply-result";
     }
 
     @GetMapping("/product-page/{id}")
@@ -82,12 +80,15 @@ public class MainController {
     @PostMapping("/add-sell")
     public String createSupply(@RequestParam(name = "sellAmount") double sellAmount,
                                @RequestParam(name = "productStockId") long productStockId, Model model) {
-        System.out.println(sellAmount);
-        System.out.println(productStockId);
-        final var productStock = productStockUtilService.sellProduct(productStockId, sellAmount);
-        // get productStock by id from service
-        // validate size of sell
-        // -amount, and add to history of sells
+        productStockUtilService.sellProduct(productStockId, sellAmount);
+        return "redirect:/table";
+    }
+
+    @PostMapping("/write-off")
+    public String writeOffProductAmount(@RequestParam(name = "writeOffAmount") double writeOffAmount,
+                                        @RequestParam(name = "productStockIdToWriteOff") long productStockIdToWriteOff,
+                                        Model model) {
+        productStockUtilService.writeOffProductAmount(productStockIdToWriteOff, writeOffAmount);
         return "redirect:/table";
     }
 
@@ -100,7 +101,7 @@ public class MainController {
     }
 
     @PostMapping("/add-product")
-    public String addProduct(Product product,Model model) {
+    public String addProduct(Product product) {
         productService.createProduct(product);
         return "redirect:/";
     }

@@ -42,4 +42,11 @@ public class ProductStockUtilService {
 
         return productStockService.updateProductStock(updatedStock);
     }
+
+    @Transactional
+    public ProductStock writeOffProductAmount(long productStockId, double sellAmount) {
+        final var productStock = productStockService.getProductStockById(productStockId);
+        final var updatedStock = productStock.toBuilder().amount(productStock.getAmount() - sellAmount).build();
+        return productStockService.updateProductStock(updatedStock);
+    }
 }
