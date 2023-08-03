@@ -3,11 +3,11 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
 
     <title>Inventarization</title>
 </head>
@@ -16,29 +16,35 @@
     <div class="row flex-nowrap">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <a class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none" href="/">
                     <span class="fs-5 d-none d-sm-inline">Menu</span>
                 </a>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
-                        <a href="/" class="nav-link align-middle px-0 text-white text-decoration-none">
+                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Products cards</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/add-product" class="nav-link align-middle px-0 text-white text-decoration-none">
+                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/add-product">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Add product</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/table" class="nav-link align-middle px-0 text-white text-decoration-none">
+                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/table">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Products table</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/supply" class="nav-link align-middle px-0 text-white text-decoration-none">
+                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/supply">
                             <i class="fs-4 bi-house"></i> <span
                                 class="ms-1 d-none d-sm-inline">Create supply request</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/all-supplies">
+                            <i class="fs-4 bi-house"></i> <span
+                                class="ms-1 d-none d-sm-inline">All supplies history</span>
                         </a>
                     </li>
                 </ul>
@@ -47,7 +53,7 @@
         </div>
         <div class="col py-3">
             <h2>All Products</h2>
-            <input class="form-control" id="myInput" onkeyup="myFunction()" type="text" placeholder="Search..">
+            <input class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search.." type="text">
             <br>
             <table class="table table-striped table-bordered table-hover">
                 <thead class="thead-dark">
@@ -67,32 +73,32 @@
                     <td th:text="${product.product.name}"></td>
                     <td th:text="${product.product.vendorCode}"></td>
                     <td>
-                        <button class="btn btn-outline-success" type="button"
-                                data-bs-toggle="modal"
-                                th:data-bs-target="${'#addAmount' + product.id}">
+                        <button class="btn btn-outline-success" data-bs-toggle="modal"
+                                th:data-bs-target="${'#addAmount' + product.id}"
+                                type="button">
                             Add Amount
                         </button>
                     </td>
                     <td th:text="${product.amount + ' ' + product.unitDimension}"></td>
                     <td>
-                        <button class="btn btn-outline-danger" type="button"
-                                data-bs-toggle="modal"
-                                th:data-bs-target="${'#writeOff' + product.id}">
+                        <button class="btn btn-outline-danger" data-bs-toggle="modal"
+                                th:data-bs-target="${'#writeOff' + product.id}"
+                                type="button">
                             Write off
                         </button>
                     </td>
                     <td th:text="${'template'}"></td>
                     <td th:text="${product.amount + ' ' + product.unitDimension}"></td>
                     <td>
-                        <button class="btn btn-outline-primary" type="button"
-                                data-bs-toggle="modal"
-                                th:data-bs-target="${'#addSell' + product.id}">
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                th:data-bs-target="${'#addSell' + product.id}"
+                                type="button">
                             Add sell
                         </button>
                     </td>
                     <!-- Modal to add sell -->
-                    <div class="modal fade" th:id="${'addSell' + product.id}"
-                         tabindex="-1" aria-hidden="true">
+                    <div aria-hidden="true" class="modal fade"
+                         tabindex="-1" th:id="${'addSell' + product.id}">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -100,35 +106,35 @@
                                         th:attr="id=${'addSellLabel' + product.id}"
                                         th:text="${'Add sell to ' + product.product.name}">
                                         Add sell</h5>
-                                    <button type="button" class="btn-close"
+                                    <button aria-label="Close" class="btn-close"
                                             data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                                            type="button"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form th:action="@{/add-sell}"
-                                          method="post">
-                                        <label for="sellAmount" class="form-label">Amount to sell:</label>
-                                        <input type="text" class="form-control" id="sellAmount"
-                                               name="sellAmount">
+                                    <form method="post"
+                                          th:action="@{/add-sell}">
+                                        <label class="form-label" for="sellAmount">Amount to sell:</label>
+                                        <input class="form-control" id="sellAmount" name="sellAmount"
+                                               type="text">
                                         <button class="btn btn-outline-primary" style="margin: 5px;" type="submit">
                                             Save
                                         </button>
 
-                                        <input type="hidden" id="productStockId" th:value="${product.id}"
-                                               name="productStockId">
+                                        <input id="productStockId" name="productStockId" th:value="${product.id}"
+                                               type="hidden">
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal"
+                                            type="button">Close
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Modal to write off -->
-                    <div class="modal fade" th:id="${'writeOff' + product.id}"
-                         tabindex="-1" aria-hidden="true">
+                    <div aria-hidden="true" class="modal fade"
+                         tabindex="-1" th:id="${'writeOff' + product.id}">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -136,35 +142,35 @@
                                         th:attr="id=${'writeOffLabel' + product.id}"
                                         th:text="${'writeOff ' + product.product.name}">
                                         writeOff</h5>
-                                    <button type="button" class="btn-close"
+                                    <button aria-label="Close" class="btn-close"
                                             data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                                            type="button"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form th:action="@{/write-off}"
-                                          method="post">
-                                        <label for="writeOffAmount" class="form-label">Amount to write off:</label>
-                                        <input type="text" class="form-control" id="writeOffAmount"
-                                               name="writeOffAmount">
+                                    <form method="post"
+                                          th:action="@{/write-off}">
+                                        <label class="form-label" for="writeOffAmount">Amount to write off:</label>
+                                        <input class="form-control" id="writeOffAmount" name="writeOffAmount"
+                                               type="text">
                                         <button class="btn btn-outline-primary" style="margin: 5px;" type="submit">
                                             Save
                                         </button>
 
-                                        <input type="hidden" id="productStockIdToWriteOff" th:value="${product.id}"
-                                               name="productStockIdToWriteOff">
+                                        <input id="productStockIdToWriteOff" name="productStockIdToWriteOff" th:value="${product.id}"
+                                               type="hidden">
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal"
+                                            type="button">Close
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Modal to add amount -->
-                    <div class="modal fade" th:id="${'addAmount' + product.id}"
-                         tabindex="-1" aria-hidden="true">
+                    <div aria-hidden="true" class="modal fade"
+                         tabindex="-1" th:id="${'addAmount' + product.id}">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -172,27 +178,27 @@
                                         th:attr="id=${'addAmountLabel' + product.id}"
                                         th:text="${'addAmount ' + product.product.name}">
                                         writeOff</h5>
-                                    <button type="button" class="btn-close"
+                                    <button aria-label="Close" class="btn-close"
                                             data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                                            type="button"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form th:action="@{/add-amount}"
-                                          method="post">
-                                        <label for="writeOffAmount" class="form-label">Amount to add:</label>
-                                        <input type="text" class="form-control" id="toAddAmount"
-                                               name="toAddAmount">
+                                    <form method="post"
+                                          th:action="@{/add-amount}">
+                                        <label class="form-label" for="writeOffAmount">Amount to add:</label>
+                                        <input class="form-control" id="toAddAmount" name="toAddAmount"
+                                               type="text">
                                         <button class="btn btn-outline-primary" style="margin: 5px;" type="submit">
                                             Save
                                         </button>
 
-                                        <input type="hidden" id="productStockIdToAddAmount" th:value="${product.id}"
-                                               name="productStockIdToAddAmount">
+                                        <input id="productStockIdToAddAmount" name="productStockIdToAddAmount" th:value="${product.id}"
+                                               type="hidden">
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal"
+                                            type="button">Close
                                     </button>
                                 </div>
                             </div>
@@ -209,9 +215,9 @@
 <!-- Optional JavaScript; choose one of the two! -->
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+<script crossorigin="anonymous"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Option 2: Separate Popper and Bootstrap JS -->
 <!--

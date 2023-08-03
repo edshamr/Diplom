@@ -1,14 +1,14 @@
 package com.productShop.inventarization.service;
 
 import com.productShop.inventarization.DTO.SupplyDTO;
-import com.productShop.inventarization.common.validator.ProductStockValidator;
 import com.productShop.inventarization.model.ProductHistory;
+import com.productShop.inventarization.model.ProductOrder;
 import com.productShop.inventarization.model.ProductStock;
+import com.productShop.inventarization.model.SupplyOrder;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -17,14 +17,23 @@ public class ProductStockUtilService {
     private final ProductStockService productStockService;
     private final ProductHistoryService productHistoryService;
 
-    public List<ProductStock> createSupply(SupplyDTO supplyDTO) {
-        final var productStocks = supplyDTO.getProducts().stream()
-                .filter(pr -> pr.getOrderAmount() > 0)
-                .filter(pr -> ProductStockValidator.isProductStockAmountEnough(pr.getProductStock(), pr.getOrderAmount()))
-                .map(pr -> pr.getProductStock().toBuilder().amount(pr.getOrderAmount() + pr.getProductStock().getAmount()).build())
-                .toList();
+    private final SupplyOrderService supplyOrderService;
 
-        return productStockService.saveAllProductStock(productStocks);
+    public SupplyOrder createSupply(SupplyDTO supplyDTO) {
+        final var productStocks = supplyDTO.getProducts().stream()
+            .filter(pr -> pr.getOrderAmount() > 0)
+            .map(productOrderDTO -> ProductOrder.builder()
+                .product(productOrderDTO.getProductStock().getProduct())
+                .orderAmount(productOrderDTO.getOrderAmount())
+                .arrived(false)
+                .build())
+            .collect(Collectors.toList());
+        final var supplyOrder = SupplyOrder.builder()
+            .products(productStocks)
+            .date(LocalDate.now())
+            .build();
+
+        return supplyOrderService.createSupplyOrder(supplyOrder);
     }
 
     @Transactional
@@ -37,7 +46,7 @@ public class ProductStockUtilService {
                 .amount(sellAmount)
                 .date(LocalDate.now())
                 .soldPrice(productStock.getProduct().getPrice())
-            .build()
+                .build()
         );
 
         return productStockService.updateProductStock(updatedStock);

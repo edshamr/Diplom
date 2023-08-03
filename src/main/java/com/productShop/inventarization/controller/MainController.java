@@ -3,7 +3,9 @@ package com.productShop.inventarization.controller;
 import com.productShop.inventarization.DTO.ProductOrderDTO;
 import com.productShop.inventarization.DTO.SupplyDTO;
 import com.productShop.inventarization.model.Product;
+import com.productShop.inventarization.model.SupplyOrder;
 import com.productShop.inventarization.repos.ProductCategoryRepository;
+import com.productShop.inventarization.repos.SupplyOrderRepository;
 import com.productShop.inventarization.service.GraphService;
 import com.productShop.inventarization.service.ProductService;
 import com.productShop.inventarization.service.ProductStockService;
@@ -24,6 +26,7 @@ public class MainController {
     ProductStockService productStockService;
     ProductStockUtilService productStockUtilService;
     GraphService graphService;
+    private final SupplyOrderRepository supplyOrderRepository;
 
     @GetMapping("/")
     public String mainPage(Model model) {
@@ -50,11 +53,31 @@ public class MainController {
 
     @PostMapping("/create-supply")
     public String createSupply(SupplyDTO supplyDTO, Model model) {
-        supplyDTO.getProducts().forEach(System.out::println);
-        final var productStocks = productStockUtilService.createSupply(supplyDTO);
-        // Save to db
-        model.addAttribute("supplyDTO", supplyDTO);
-        // make page, and redirect to that page (supply-result)
+        final var supplyOrder = productStockUtilService.createSupply(supplyDTO);
+        model.addAttribute("supplyOrder", supplyOrder);
+        return "supply-result";
+    }
+
+    @PostMapping("/update-supply")
+    public String updateSupply(SupplyOrder supplyOrder, Model model) {
+        supplyOrder.getProducts().forEach(System.out::println);
+        // TODO:  logic to confirmation of retrieval of item, and adding to it current stock
+        return "redirect:/all-supplies";
+    }
+
+    @GetMapping("/all-supplies")
+    public String getAllSupplies(Model model) {
+        // TODO: Write service
+        final var allSupplies = supplyOrderRepository.findAll();
+        model.addAttribute("supplies", allSupplies);
+        return "all-supply-orders";
+    }
+
+    @GetMapping("/supply-page/{id}")
+    public String createSupply(@PathVariable("id") long id, Model model) {
+        final var supplyOrder =
+            supplyOrderRepository.findById(id).orElseThrow(() -> new RuntimeException("Supply order not found"));
+        model.addAttribute("supplyOrder", supplyOrder);
         return "supply-result";
     }
 
@@ -94,8 +117,8 @@ public class MainController {
 
     @PostMapping("/add-amount")
     public String addAmountToProduct(@RequestParam(name = "toAddAmount") double toAddAmount,
-                                        @RequestParam(name = "productStockIdToAddAmount") long productStockIdToAddAmount,
-                                        Model model) {
+                                     @RequestParam(name = "productStockIdToAddAmount") long productStockIdToAddAmount,
+                                     Model model) {
         productStockUtilService.addAmountToProduct(productStockIdToAddAmount, toAddAmount);
         return "redirect:/table";
     }

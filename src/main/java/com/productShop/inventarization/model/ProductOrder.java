@@ -1,6 +1,5 @@
 package com.productShop.inventarization.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,10 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,17 +22,21 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 @Entity
-@Table(name = "supply_order")
-public class SupplyOrder {
+@Table(name = "product_order")
+public class ProductOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "supply_order_id")
-    List<ProductOrder> products;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_order_product")
+    Product product;
 
-    @Column(name = "date")
-    LocalDate date;
+    @Column(name = "orderAmount")
+    double orderAmount;
+
+    @Column(name = "arrived")
+    boolean arrived;
 }
