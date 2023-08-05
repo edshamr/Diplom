@@ -83,6 +83,8 @@
                         <input th:field="*{products[__${itemStat.index}__].product.categories}" type="hidden"/>
                     </tr>
                 </table>
+                <input th:field="*{id}" type="hidden"/>
+                <input th:field="*{date}" type="hidden"/>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <input class="btn btn-primary btn-lg" type="submit" id="submitButton" th:value="Save">
                 </div>

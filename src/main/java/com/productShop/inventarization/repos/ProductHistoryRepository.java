@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductHistoryRepository extends JpaRepository<ProductHistory, Long> {
-//    List<ProductHistory> findProductHistoriesByProductId(final Long id);
+    //    List<ProductHistory> findProductHistoriesByProductId(final Long id);
     @Query("""
         SELECT new com.productShop.inventarization.DTO.ProductHistoryProjection(ph.date, SUM(ph.amount))
         FROM ProductHistory ph

@@ -3,6 +3,7 @@ package com.productShop.inventarization.controller;
 import com.productShop.inventarization.DTO.ProductOrderDTO;
 import com.productShop.inventarization.DTO.SupplyDTO;
 import com.productShop.inventarization.model.Product;
+import com.productShop.inventarization.model.ProductStock;
 import com.productShop.inventarization.model.SupplyOrder;
 import com.productShop.inventarization.repos.ProductCategoryRepository;
 import com.productShop.inventarization.repos.SupplyOrderRepository;
@@ -10,6 +11,7 @@ import com.productShop.inventarization.service.GraphService;
 import com.productShop.inventarization.service.ProductService;
 import com.productShop.inventarization.service.ProductStockService;
 import com.productShop.inventarization.service.ProductStockUtilService;
+import com.productShop.inventarization.service.SupplyOrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @AllArgsConstructor
 public class MainController {
     private final ProductCategoryRepository productCategoryRepository;
+    private final SupplyOrderRepository supplyOrderRepository;
+    private final SupplyOrderService supplyOrderService;
     ProductService productService;
     ProductStockService productStockService;
     ProductStockUtilService productStockUtilService;
     GraphService graphService;
-    private final SupplyOrderRepository supplyOrderRepository;
 
     @GetMapping("/")
     public String mainPage(Model model) {
@@ -61,7 +64,7 @@ public class MainController {
     @PostMapping("/update-supply")
     public String updateSupply(SupplyOrder supplyOrder, Model model) {
         supplyOrder.getProducts().forEach(System.out::println);
-        // TODO:  logic to confirmation of retrieval of item, and adding to it current stock
+        supplyOrderService.updateSupplyOrder(supplyOrder);
         return "redirect:/all-supplies";
     }
 
@@ -134,6 +137,11 @@ public class MainController {
     @PostMapping("/add-product")
     public String addProduct(Product product) {
         productService.createProduct(product);
+        productStockService.saveProductStock(ProductStock.builder()
+            .product(product)
+            .unitDimension("kg")
+            .amount(0)
+            .build());
         return "redirect:/";
     }
 

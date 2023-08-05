@@ -1,11 +1,9 @@
 package com.productShop.inventarization.service;
 
-import com.productShop.inventarization.DTO.ProductHistoryProjection;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

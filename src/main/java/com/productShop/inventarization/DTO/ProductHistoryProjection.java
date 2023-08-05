@@ -1,6 +1,5 @@
 package com.productShop.inventarization.DTO;
 
-import jakarta.persistence.Column;
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
