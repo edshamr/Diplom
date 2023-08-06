@@ -64,6 +64,7 @@ public class DataLoader implements ApplicationRunner {
                         Set.of(
                             productCategoryRepository.findFirstByName("Sweet").orElse(new ProductCategory()))
                     )
+                    .price(50)
                     .build(),
                 Product.builder()
                     .name("Coca Cola")
@@ -75,6 +76,7 @@ public class DataLoader implements ApplicationRunner {
                             productCategoryRepository.findFirstByName("Sweet").orElse(new ProductCategory()),
                             productCategoryRepository.findFirstByName("Drinks").orElse(new ProductCategory()))
                     )
+                    .price(55)
                     .build(),
                 Product.builder()
                     .name("Good meat")
@@ -85,6 +87,7 @@ public class DataLoader implements ApplicationRunner {
                         Set.of(
                             productCategoryRepository.findFirstByName("Meat").orElse(new ProductCategory()))
                     )
+                    .price(250)
                     .build(),
                 Product.builder()
                     .name("Pork")
@@ -95,17 +98,19 @@ public class DataLoader implements ApplicationRunner {
                         Set.of(
                             productCategoryRepository.findFirstByName("Meat").orElse(new ProductCategory()))
                     )
+                    .price(180)
                     .build(),
                 Product.builder()
                     .name("Cake")
                     .vendorCode("CK")
                     .image(
-                        "https://www.popsci.com/uploads/2019/03/18/GHDDTIRYTR22T6DYZG6GGWUZCQ-scaled.jpg?auto=webp")
+                        "https://i1.fnp.com/images/pr/l/v20190520192511/black-forest-cake-half-kg_1.jpg")
                     .categories(
                         Set.of(
                             productCategoryRepository.findFirstByName("Sweet").orElse(new ProductCategory()),
                             productCategoryRepository.findFirstByName("Bakery").orElse(new ProductCategory()))
                     )
+                    .price(150)
                     .build()
             );
 
@@ -121,20 +126,37 @@ public class DataLoader implements ApplicationRunner {
                     .product(productRepository.getReferenceById(2L))
                     .amount(5)
                     .unitDimension("Sht")
+                    .build(),
+                ProductStock.builder()
+                    .product(productRepository.getReferenceById(3L))
+                    .amount(8)
+                    .unitDimension("Kg")
+                    .build(),
+                ProductStock.builder()
+                    .product(productRepository.getReferenceById(4L))
+                    .amount(20)
+                    .unitDimension("Kg")
+                    .build(),
+                ProductStock.builder()
+                    .product(productRepository.getReferenceById(5L))
+                    .amount(3)
+                    .unitDimension("Sht")
                     .build()
             );
             productStockRepository.saveAll(productStocks);
 
-            ProductHistory[] productHistories = new ProductHistory[20];
-            Random rng = new Random();
-            for (int i = 0; i < 20; i++) {
-                productHistories[i] = ProductHistory.builder()
-                    .amount(Math.abs(rng.nextInt() % 10))
-                    .date(LocalDate.of(2023, Month.JULY, i + 1))
-                    .product(productRepository.findById(1L).get())
-                    .build();
+            for (int i = 1; i <= 5; i++) {
+                ProductHistory[] productHistories = new ProductHistory[20];
+                Random rng = new Random();
+                for (int j = 0; j < 20; j++) {
+                    productHistories[j] = ProductHistory.builder()
+                        .amount(Math.abs(rng.nextInt() % 10))
+                        .date(LocalDate.of(2023, Month.JULY, j + 1))
+                        .product(productRepository.findById((long) i).get())
+                        .build();
+                }
+                productHistoryRepository.saveAll(List.of(productHistories));
             }
-            productHistoryRepository.saveAll(List.of(productHistories));
         }
     }
 }

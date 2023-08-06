@@ -63,7 +63,6 @@ public class MainController {
 
     @PostMapping("/update-supply")
     public String updateSupply(SupplyOrder supplyOrder, Model model) {
-        supplyOrder.getProducts().forEach(System.out::println);
         supplyOrderService.updateSupplyOrder(supplyOrder);
         return "redirect:/all-supplies";
     }
