@@ -1,6 +1,6 @@
 package com.productShop.inventarization.service;
 
-import com.productShop.inventarization.DTO.SupplyDTO;
+import com.productShop.inventarization.model.dto.SupplyDto;
 import com.productShop.inventarization.model.ProductHistory;
 import com.productShop.inventarization.model.ProductOrder;
 import com.productShop.inventarization.model.ProductStock;
@@ -19,7 +19,7 @@ public class ProductStockUtilService {
 
     private final SupplyOrderService supplyOrderService;
 
-    public SupplyOrder createSupply(SupplyDTO supplyDTO) {
+    public SupplyOrder createSupply(SupplyDto supplyDTO) {
         final var productStocks = supplyDTO.getProducts().stream()
             .filter(pr -> pr.getOrderAmount() > 0)
             .map(productOrderDTO -> ProductOrder.builder()

@@ -1,6 +1,6 @@
-package com.productShop.inventarization.DTO;
+package com.productShop.inventarization.model.dto;
 
-import com.productShop.inventarization.model.ProductStock;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class ProductOrderDTO {
-    ProductStock productStock;
-    double orderAmount;
+public class SupplyDto {
+    List<ProductOrderDto> products;
 }

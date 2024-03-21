@@ -1,6 +1,6 @@
 package com.productShop.inventarization.service;
 
-import com.productShop.inventarization.DTO.ProductHistoryProjection;
+import com.productShop.inventarization.model.dto.ProductHistoryProjection;
 import com.productShop.inventarization.common.validator.ProductHistoryValidator;
 import com.productShop.inventarization.exception.ProductHistoryNotFoundException;
 import com.productShop.inventarization.model.ProductHistory;

@@ -1,7 +1,7 @@
 package com.productShop.inventarization.controller;
 
-import com.productShop.inventarization.DTO.ProductOrderDTO;
-import com.productShop.inventarization.DTO.SupplyDTO;
+import com.productShop.inventarization.model.dto.ProductOrderDto;
+import com.productShop.inventarization.model.dto.SupplyDto;
 import com.productShop.inventarization.model.Product;
 import com.productShop.inventarization.model.ProductStock;
 import com.productShop.inventarization.model.SupplyOrder;
@@ -48,14 +48,14 @@ public class MainController {
     @GetMapping("/supply")
     public String getSupplyRequestPage(Model model) {
         var productStocksList = productStockService.getAllProductStock();
-        var productOrderDto = productStocksList.stream().map((e) -> new ProductOrderDTO(e, 0)).toList();
-        var supplyDTO = new SupplyDTO(productOrderDto);
+        var productOrderDto = productStocksList.stream().map((e) -> new ProductOrderDto(e, 0)).toList();
+        var supplyDTO = new SupplyDto(productOrderDto);
         model.addAttribute("supplyDTO", supplyDTO);
         return "supply-creation";
     }
 
     @PostMapping("/create-supply")
-    public String createSupply(SupplyDTO supplyDTO, Model model) {
+    public String createSupply(SupplyDto supplyDTO, Model model) {
         final var supplyOrder = productStockUtilService.createSupply(supplyDTO);
         model.addAttribute("supplyOrder", supplyOrder);
         return "supply-result";

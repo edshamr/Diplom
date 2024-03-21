@@ -1,4 +1,4 @@
-package com.productShop.inventarization.DTO;
+package com.productShop.inventarization.model.dto;
 
 import java.time.LocalDate;
 import lombok.AccessLevel;
