@@ -39,4 +39,8 @@ public class ProductOrder {
 
     @Column(name = "arrived")
     boolean arrived;
+
+    @ManyToOne
+    @JoinColumn(name = "consumer_id", referencedColumnName = "id")
+    Consumer consumer;
 }

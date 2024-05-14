@@ -1,43 +1,33 @@
 package com.productShop.inventarization.service;
 
-import com.productShop.inventarization.exception.ProductCategoryNotFoundException;
 import com.productShop.inventarization.model.ProductCategory;
-import com.productShop.inventarization.repos.ProductCategoryRepository;
+import com.productShop.inventarization.model.dto.AddCategoryDto;
 import jakarta.annotation.Nonnull;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-@Service
-@RequiredArgsConstructor
-public class ProductCategoryService {
-    private final ProductCategoryRepository productCategoryRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-    public List<ProductCategory> getAllProductCategories() {
-        return productCategoryRepository.findAll();
-    }
+public interface ProductCategoryService {
+    List<ProductCategory> getAllProductCategories(@Nonnull final String consumerKey);
 
-    public ProductCategory getProductById(@Nonnull final Long id) {
-        return productCategoryRepository.findById(id).
-            orElseThrow(() -> new ProductCategoryNotFoundException("Such product category was not found"));
-    }
+    ProductCategory getProductById(@Nonnull final Long id);
 
-    public ProductCategory createProductCategory(
-        @Nonnull @ModelAttribute("product_category") final ProductCategory productCategory) {
-        return productCategoryRepository.save(productCategory);
-    }
+    Optional<ProductCategory> getProductByName(@Nonnull final String name, @Nonnull String consumerKey);
 
-    public ProductCategory updateProductCategory(
-        @Nonnull @ModelAttribute("product_category") final ProductCategory productCategory) {
-        productCategoryRepository.findById(productCategory.getId()).
-            orElseThrow(() -> new ProductCategoryNotFoundException("Such product category was not found"));
-        return productCategoryRepository.save(productCategory);
-    }
+    ProductCategory createProductCategory(
+            @Nonnull @ModelAttribute("product_category") final AddCategoryDto categoryDto,
+            @Nonnull final String consumerKey);
 
-    public void deleteProductCategory(@Nonnull final Long id) {
-        final var productCategoryToDelete = productCategoryRepository.findById(id).
-            orElseThrow(() -> new ProductCategoryNotFoundException("Such product category was not found"));
-        productCategoryRepository.delete(productCategoryToDelete);
-    }
+    ProductCategory createProductCategory(
+            @Nonnull @ModelAttribute("product_category") final ProductCategory productCategory,
+            @Nonnull final String consumerKey);
+
+    ProductCategory updateProductCategory(
+            @Nonnull @ModelAttribute("product_category") final ProductCategory productCategory);
+
+    void deleteProductCategory(@Nonnull final Long id);
+
+    Set<ProductCategory> getProductCategoriesById(Set<Long> categoryIds);
 }

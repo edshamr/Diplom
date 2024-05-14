@@ -1,29 +1,20 @@
 package com.productShop.inventarization.service;
 
+import com.productShop.inventarization.model.dto.GeneralStatistic;
+
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-public class GraphService {
-    private final ProductHistoryService productHistoryService;
+public interface GraphService {
+    Map<LocalDate, Double> generateItemSellHistoryGraph(long id, String consumerKey);
 
-    public Map<LocalDate, Double> generateItemSellHistoryGraph(long id) {
-        final var productHistories = productHistoryService.getProductHistoryByProductId(id);
+    Map<LocalDate, Double> generateGeneralSellsGraph(List<GeneralStatistic> statisticList);
 
-        final var result = new TreeMap<LocalDate, Double>();
+    Map<LocalDate, Double> generateCategorySellHistoryGraph(String category, String consumerKey);
 
-        productHistories.stream()
-            .filter(productHistory -> {
-                long monthsDifference = ChronoUnit.MONTHS.between(productHistory.getDate(), LocalDate.now());
-                return monthsDifference <= 1;
-            })
-            .forEach(projection -> result.put(projection.getDate(), projection.getAmount()));
-
-        return result;
-    }
+    Map<LocalDate, Double> generateCategorySellHistoryGraph(LocalDate startDate,
+                                                            LocalDate endDate,
+                                                            String category,
+                                                            String consumerKey);
 }

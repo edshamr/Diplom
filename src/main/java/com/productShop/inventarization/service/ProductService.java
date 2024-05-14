@@ -1,44 +1,21 @@
 package com.productShop.inventarization.service;
 
-import com.productShop.inventarization.exception.ProductNotFoundException;
 import com.productShop.inventarization.model.Product;
-import com.productShop.inventarization.repos.ProductRepository;
+import com.productShop.inventarization.model.dto.CreateProductDto;
+import com.productShop.inventarization.model.dto.UpdateProductDto;
 import jakarta.annotation.Nonnull;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-@Service
-@RequiredArgsConstructor
-public class ProductService {
-    private final ProductRepository productRepository;
+import java.util.List;
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
+public interface ProductService {
+    List<Product> getAllProducts(String consumerToken);
 
-    public Product getProductById(@Nonnull final Long id) {
-        var product = productRepository.findById(id).
-            orElseThrow(() -> new ProductNotFoundException("Such product was not found"));
-        Hibernate.initialize(product.getCategories());
-        return product;
-    }
+    Product getProductById(@Nonnull final Long id, String consumerToken);
 
-    public Product createProduct(@Nonnull @ModelAttribute("product") final Product product) {
-        return productRepository.save(product);
-    }
+    Product createProduct(@Nonnull @ModelAttribute("product") final CreateProductDto dto, String consumerToken);
 
-    public Product updateProduct(@Nonnull @ModelAttribute("product") final Product product) {
-        productRepository.findById(product.getId()).
-            orElseThrow(() -> new ProductNotFoundException("Such product was not found"));
-        return productRepository.save(product);
-    }
+    Product updateProduct(@Nonnull @ModelAttribute("product") final UpdateProductDto productDto, String consumerToken);
 
-    public void deleteProduct(@Nonnull final Long id) {
-        final var productToDelete = productRepository.findById(id).
-            orElseThrow(() -> new ProductNotFoundException("Such product was not found"));
-        productRepository.delete(productToDelete);
-    }
+    void deleteProduct(@Nonnull final Long id, final String consumerToken);
 }

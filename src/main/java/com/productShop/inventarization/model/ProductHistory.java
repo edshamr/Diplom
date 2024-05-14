@@ -16,6 +16,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Data
 @AllArgsConstructor
@@ -42,4 +44,11 @@ public class ProductHistory {
 
     @Column(name = "sold_price", nullable = false)
     double soldPrice;
+
+    @Column(name = "operation", nullable = false)
+    OperationType operation;
+
+    @ManyToOne
+    @JoinColumn(name = "consumer_id", referencedColumnName = "id")
+    Consumer consumer;
 }

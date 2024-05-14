@@ -21,46 +21,50 @@
     <div class="row flex-nowrap">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                <a class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none" href="/">
+                <a class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none" href="/api/">
                     <span class="fs-5 d-none d-sm-inline">Menu</span>
                 </a>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
-                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/">
+                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/api/">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Products cards</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/add-product">
+                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/api/add-product">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Add product</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/table">
+                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/api/table">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Products table</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/supply">
-                            <i class="fs-4 bi-house"></i> <span
-                                class="ms-1 d-none d-sm-inline">Create supply request</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/all-supplies">
+                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/supply/all-supplies">
                             <i class="fs-4 bi-house"></i> <span
                                 class="ms-1 d-none d-sm-inline">All supplies history</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-middle px-0 text-white text-decoration-none" href="/statistic/">
+                            <i class="fs-4 bi-house"></i> <span
+                                class="ms-1 d-none d-sm-inline">Statistic</span>
+                        </a>
+                    </li>
                 </ul>
                 <hr>
+                <div>
+                    <hr>
+                    <a href="/api/profile" class="nav-link align-middle px-0 text-white text-decoration-none">
+                        <i class="fs-4 bi-person-circle"></i> <span class="ms-1 d-none d-sm-inline">Profile</span>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="col py-3">
             <div class="card text-center">
-                <!--                <div class="card-header">-->
                 <div>
-                    <!--                    <img class="card-img-top" th:src="${product.image}" alt="Image of Product">-->
                     <img alt="Image of Product" th:src="${product.image}">
                 </div>
                 <div class="card-body">
@@ -92,45 +96,47 @@
                 <h5 class="modal-title" id="editModalLabel">Update Film</h5>
                 <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
-            <form method="post" th:action="@{/update-product}" th:object="${product}">
+            <form id="editProductForm" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <label class="form-label" for="name">Name:</label>
-                    <input class="form-control" id="name" name="name"
-                           th:value="${product.name}"
-                           type="text">
+                    <input class="form-control" id="name" name="name" type="text" th:value="${product.name}">
 
                     <label class="form-label" for="vendorCode">Vendor Code:</label>
-                    <input class="form-control" id="vendorCode" name="vendorCode"
-                           th:value="${product.vendorCode}"
-                           type="text">
+                    <input class="form-control" id="vendorCode" name="vendorCode" type="text" th:value="${product.vendorCode}">
 
                     <label class="form-label" for="price">Price:</label>
-                    <input class="form-control" id="price" name="price"
-                           th:value="${product.price}"
-                           type="number">
+                    <input class="form-control" id="price" name="price" type="number" th:value="${product.price}">
 
                     <label class="form-label" for="image">Image:</label>
-                    <input class="form-control" id="image" name="image"
-                           th:value="${product.image}"
-                           type="text">
+                    <input class="form-control" id="image" name="image" type="file" accept="image/*">
 
-                    <ul class="list-group">
-                        <label>Categories:</label>
-                        <li class="list-group-item" th:each="category : ${allCategories}">
-                            <label>
-                                <input class="form-check-input me-1" name="genres" th:field="${product.categories}"
-                                       th:text="${category.name}"
-                                       th:value="${category.id}"
-                                       type="checkbox"/>
-                            </label>
-                        </li>
-                    </ul>
+                    <div class="col py-3">
+                        <ul class="list-group mt-3" id="categoryList">
+                            <label>Categories:</label>
+                            <li class="list-group-item" th:each="category : ${allCategories}">
+                                <label>
+                                    <input class="form-check-input me-1" name="categories" type="checkbox"
+                                           th:text="${category.name}" th:value="${category.id}">
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
 
-                    <input id="id" name="id" th:value="${product.id}" type="hidden">
+                    <input type="hidden" name="id" th:value="${product.id}">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
-                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+            <form id="addCategoryForm">
+                <div class="modal-body">
+                    <label class="form-label" for="categoryName">New Category Name:</label>
+                    <input class="form-control" id="categoryName" name="categoryName" type="text">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                        <button class="btn btn-primary" type="button" id="addCategoryBtn">Add Category</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -167,6 +173,69 @@
             .getElementById('chart_div'));
         chart.draw(data, options);
     }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#editProductForm').submit(function(event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+
+            formData['categories'] = [];
+            $('input[name="categories"]:checked').each(function() {
+                formData['categories'].push($(this).val());
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/update-product',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log('Product updated successfully:', response);
+                    window.location.reload(true);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error updating product:', textStatus, errorThrown);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#addCategoryBtn').click(function() {
+            var addCategoryDto = {
+                name: $('#categoryName').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/category/add-category',
+                contentType: 'application/json',
+                data: JSON.stringify(addCategoryDto),
+                success: function(data) {
+                    var categoriesHtml = '';
+                    data.forEach(function(category) {
+                        categoriesHtml += '<li class="list-group-item">' +
+                            '<label>' +
+                            '<input class="form-check-input me-1" name="genres" type="checkbox" value="' + category.id + '"/>' +
+                            category.name +
+                            '</label>' +
+                            '</li>';
+                    });
+                    $('#categoryList').html(categoriesHtml);
+                    $('#categoryName').val('');
+                },
+                error: function() {
+                    alert('Error adding category.');
+                }
+            });
+        });
+    });
 </script>
 
 <!-- Optional JavaScript; choose one of the two! -->

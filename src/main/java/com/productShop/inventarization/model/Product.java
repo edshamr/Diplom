@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Set;
 import lombok.AccessLevel;
@@ -49,5 +50,9 @@ public class Product {
     Set<ProductCategory> categories;
 
     @Column(name = "price", nullable = false)
-    double price;
+    Double price;
+
+    @ManyToOne
+    @JoinColumn(name = "consumer_id", referencedColumnName = "id")
+    Consumer consumer;
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -38,4 +39,8 @@ public class ProductStock {
 
     @Column(name = "unit_dimension")
     String unitDimension;
+
+    @ManyToOne
+    @JoinColumn(name = "consumer_id", referencedColumnName = "id")
+    Consumer consumer;
 }

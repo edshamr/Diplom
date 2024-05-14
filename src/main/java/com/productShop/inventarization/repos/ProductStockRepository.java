@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface ProductStockRepository extends JpaRepository<ProductStock, Long> {
 
     Optional<ProductStock> findByProductId(long productId);
+    Optional<ProductStock> findByProductIdAndConsumer_Key(long productId, String key);
 }

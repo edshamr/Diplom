@@ -1,58 +1,43 @@
 package com.productShop.inventarization.service;
 
-import com.productShop.inventarization.model.dto.ProductHistoryProjection;
-import com.productShop.inventarization.common.validator.ProductHistoryValidator;
-import com.productShop.inventarization.exception.ProductHistoryNotFoundException;
 import com.productShop.inventarization.model.ProductHistory;
-import com.productShop.inventarization.repos.ProductHistoryRepository;
+import com.productShop.inventarization.model.dto.ProductHistoryProjection;
+import com.productShop.inventarization.model.dto.ProductHistorySupplyProjection;
 import jakarta.annotation.Nonnull;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-@Service
-@RequiredArgsConstructor
-public class ProductHistoryService {
-    private final ProductHistoryRepository productHistoryRepository;
+import java.time.LocalDate;
+import java.util.List;
 
-    public List<ProductHistory> getAllProductHistories() {
-        return productHistoryRepository.findAll();
-    }
+public interface ProductHistoryService {
+    List<ProductHistoryProjection> getAllProductHistories(String consumerKey);
 
-    public ProductHistory getProductHistoryById(@Nonnull final Long id) {
-        return productHistoryRepository.findById(id).
-            orElseThrow(() -> new ProductHistoryNotFoundException("Such product history was not found"));
-    }
+    List<ProductHistorySupplyProjection> getAllProductSupplyHistories(String consumerKey);
 
-    public List<ProductHistoryProjection> getProductHistoryByProductId(@Nonnull final Long id) {
-        return productHistoryRepository.findProductHistoriesByProductId(id);
-    }
+    List<ProductHistorySupplyProjection> getAllProductSupplyHistoriesAndDate(String consumerKey,
+                                                                             LocalDate startDate,
+                                                                             LocalDate endDate);
 
-    public ProductHistory createProductHistory(
-        @Nonnull @ModelAttribute("product_history") final ProductHistory productHistory) {
-        if (ProductHistoryValidator.isProductHistoryValid(productHistory)) {
-            throw new RuntimeException("Such product history is not valid.");
-        }
+    List<ProductHistoryProjection> getProductHistoryByProductId(@Nonnull final Long id,
+                                                                @Nonnull final String consumerKey);
 
-        return productHistoryRepository.save(productHistory);
-    }
+    List<ProductHistoryProjection> getProductHistoryByCategory(@Nonnull final String category,
+                                                               @Nonnull final String consumerKey);
 
-    public ProductHistory updateProductHistory(
-        @Nonnull @ModelAttribute("product_history") final ProductHistory productHistory) {
-        if (ProductHistoryValidator.isProductHistoryValid(productHistory)) {
-            throw new RuntimeException("Such product history is not valid.");
-        }
+    ProductHistory createProductHistory(
+            @Nonnull @ModelAttribute("product_history") final ProductHistory productHistory);
 
-        productHistoryRepository.findById(productHistory.getId()).
-            orElseThrow(() -> new ProductHistoryNotFoundException("Such product history was not found"));
+    ProductHistory updateProductHistory(
+            @Nonnull @ModelAttribute("product_history") final ProductHistory productHistory);
 
-        return productHistoryRepository.save(productHistory);
-    }
+    void deleteProductHistory(@Nonnull final Long id);
 
-    public void deleteProductHistory(@Nonnull final Long id) {
-        final var productHistoryToDelete = productHistoryRepository.findById(id).
-            orElseThrow(() -> new ProductHistoryNotFoundException("Such product history was not found"));
-        productHistoryRepository.delete(productHistoryToDelete);
-    }
+    List<ProductHistoryProjection> getProductHistoryByDateAndCategory(LocalDate startDate,
+                                                                      LocalDate endDate,
+                                                                      String category,
+                                                                      String consumerKey);
+
+    List<ProductHistoryProjection> getProductHistoryByDate(LocalDate startDate,
+                                                           LocalDate endDate,
+                                                           String consumerKey);
 }
